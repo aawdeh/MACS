@@ -1,4 +1,4 @@
-# Time-stamp: <2018-10-16 11:48:16 Tao Liu>
+# Time-stamp: <2018-10-22 17:09:32 Tao Liu>
 
 """Description: Filter duplicate reads depending on sequencing depth.
 
@@ -49,7 +49,7 @@ def run( o_options ):
 
 
     #0 prepare output file
-    outfile = os.path.join( options.outdir, options.outputfile )
+    outfile = os.path.join( options.outdir, options.outputfile ).encode()
     if os.path.isfile( outfile ):
         info("# Existing file %s will be replaced!" % outfile )
         os.unlink( outfile )

@@ -1,4 +1,4 @@
-# Time-stamp: <2016-02-12 00:11:11 Tao Liu>
+# Time-stamp: <2018-10-23 14:46:00 Tao Liu>
 
 import sys
 import os
@@ -84,6 +84,6 @@ def run( options ):
             raise Exception("Can't reach here!")
         
         info("Write bedGraph of scores...")
-        ofhd = open(ofile,"wb")
+        ofhd = open(ofile,"w")
         sbtrack.write_bedGraph(ofhd,name="%s_Scores" % (method.upper()),description="Scores calculated by %s" % (method.upper()), column = 3)
         info("Finished '%s'! Please check '%s'!" % (method, ofile))

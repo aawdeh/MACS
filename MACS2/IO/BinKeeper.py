@@ -72,7 +72,7 @@ class BinKeeperI:
         self.binnumber = int(chromosomesize/self.binsize)+1
         self.cage = []
         a = self.cage.append
-        for i in xrange(self.binnumber):
+        for i in range(self.binnumber):
             a([array(BYTE4,[]),array(FBYTE4,[])])
 
     def add ( self, p, value ):
@@ -102,7 +102,7 @@ class BinKeeperI:
         bin1 = self.p2bin(p1)
         bin2 = self.p2bin(p2)+1
         t = [array(BYTE4,[]),array(FBYTE4,[])]
-        for i in xrange(bin1,bin2):
+        for i in range(bin1,bin2):
             t[0].extend(self.cage[i][0])
             t[1].extend(self.cage[i][1])            
         return t
@@ -148,7 +148,7 @@ class BinKeeperI:
         (ps,vs) = self.__pp2cages(p1,p2)
         p1_in_cages = bisect_left(ps,p1)
         p2_in_cages = bisect_right(ps,p2)
-        return zip(ps[p1_in_cages:p2_in_cages],vs[p1_in_cages:p2_in_cages])
+        return list(zip(ps[p1_in_cages:p2_in_cages],vs[p1_in_cages:p2_in_cages]))
 
 
 class BinKeeperII:
@@ -168,7 +168,7 @@ class BinKeeperII:
         self.binnumber = int(chromosomesize/self.binsize)+1
         self.cage = []
         a = self.cage.append
-        for i in xrange(self.binnumber):
+        for i in range(self.binnumber):
             a([array(BYTE4,[]),array(BYTE4,[]),array(FBYTE4,[])])
 
     def add ( self, startp, endp, value ):
@@ -193,7 +193,7 @@ class BinKeeperII:
             self.cage[startbin][1].insert(j,(startbin+1)*self.binsize)
             self.cage[startbin][2].insert(j,value)
             # other bins fully covered
-            for i in xrange(startbin+1,endbin):
+            for i in range(startbin+1,endbin):
                 p = i*self.binsize
                 j = bisect.bisect_left(self.cage[startbin][0],p)
                 self.cage[startbin][0].insert(j,p)
@@ -228,7 +228,7 @@ class BinKeeperII:
         bin1 = self.p2bin(p1)
         bin2 = self.p2bin(p2)
         t = [array(BYTE4,[]),array(BYTE4,[]),array(FBYTE4,[])]
-        for i in xrange(bin1,bin2+1):
+        for i in range(bin1,bin2+1):
             t[0].extend(self.cage[i][0])
             t[1].extend(self.cage[i][1])
             t[2].extend(self.cage[i][2])                        
@@ -265,7 +265,7 @@ class BinKeeperII:
             output_startpos_list = array(BYTE4,[startposs[p2_in_cages+1],])+output_startpos_list
             output_endpos_list = array(BYTE4,[p2,])+output_endpos_list
 
-        return zip(output_startpos_list,output_endpos_list)
+        return list(zip(output_startpos_list,output_endpos_list))
 
     def pp2pvs (self, p1, p2):
         """Given an interval, return the values list between two given positions.
@@ -293,9 +293,9 @@ class BinKeeperII:
 
         # print p1_in_cages,p2_in_cages
         # print vs
-        print output_startpos_list
-        print output_endpos_list
-        print output_value_list
+        print(output_startpos_list)
+        print(output_endpos_list)
+        print(output_value_list)
 
         # check if the bin (p1_in_cages-1) covers p1
         
@@ -315,9 +315,9 @@ class BinKeeperII:
             output_endpos_list = output_endpos_list+array(BYTE4,[p2,])
             output_value_list = output_value_list+array(BYTE4,[self.cage[p2_in_cages+1][2],])
 
-        print output_startpos_list
-        print output_endpos_list
-        print output_value_list
+        print(output_startpos_list)
+        print(output_endpos_list)
+        print(output_value_list)
 
-        return zip(output_startpos_list,output_endpos_list,output_value_list)
+        return list(zip(output_startpos_list,output_endpos_list,output_value_list))
 

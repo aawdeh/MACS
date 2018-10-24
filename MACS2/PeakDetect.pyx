@@ -1,4 +1,4 @@
-# Time-stamp: <2018-10-02 16:23:24 Tao Liu>
+# Time-stamp: <2018-10-22 13:51:05 Tao Liu>
 
 """Module Description
 
@@ -28,11 +28,11 @@ from MACS2.IO.BedGraphIO import bedGraphIO
 from MACS2.Constants import *
 from MACS2.IO.CallPeakUnit import CallerFromAlignments
 
-cdef str subpeak_letters(short i):
+cdef bytes subpeak_letters(short i):
     if i < 26:
-        return chr(97+i)
+        return chr(97+i).encode()
     else:
-        return subpeak_letters(i / 26) + chr(97 + (i % 26))
+        return subpeak_letters(i / 26) + chr(97 + (i % 26)).encode()
 
 class PeakDetect:
     """Class to do the peak calling.

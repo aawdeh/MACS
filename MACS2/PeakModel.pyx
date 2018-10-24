@@ -1,4 +1,4 @@
-# Time-stamp: <2015-03-10 15:38:17 Tao Liu>
+# Time-stamp: <2018-10-19 11:53:44 Tao Liu>
 
 """Module Description
 
@@ -17,7 +17,8 @@ with the distribution).
 import sys, time, random
 import numpy as np
 cimport numpy as np
-from array import array
+from cpython cimport array
+import array
 from MACS2.Constants import *
 
 from cpython cimport bool
@@ -116,7 +117,7 @@ cdef class PeakModel:
         cdef:
             dict paired_peaks
             long num_paired_peakpos, num_paired_peakpos_remained, num_paired_peakpos_picked
-            str c
+            bytes c                       #chromosome
         
 
         self.peaksize = 2*self.bw
@@ -133,7 +134,7 @@ cdef class PeakModel:
         num_paired_peakpos_remained = self.max_pairnum
         num_paired_peakpos_picked = 0
         # select only num_paired_peakpos_remained pairs.
-        for c in paired_peakpos.keys():
+        for c in list(paired_peakpos.keys()):
             num_paired_peakpos +=len(paired_peakpos[c])
         # TL: Now I want to use everything
 
@@ -183,7 +184,7 @@ Summary of Peak Model:
         #self.plus_line = [0]*window_size
         #self.minus_line = [0]*window_size        
         self.info("start model_add_line...")
-        chroms = paired_peakpos.keys()
+        chroms = list(paired_peakpos.keys())
         
         for i in range(len(chroms)):
             paired_peakpos_chrom = paired_peakpos[chroms[i]]
@@ -224,7 +225,7 @@ Summary of Peak Model:
         tmp_cor_alternative_d = ycorr[ i_l_max ]
         tmp_alternative_d = xcorr[ i_l_max ]
         cor_alternative_d =  tmp_cor_alternative_d [ tmp_alternative_d > 0 ]
-        self.alternative_d = map( int, tmp_alternative_d[ tmp_alternative_d > 0 ] )
+        self.alternative_d = [ int(x) for x in tmp_alternative_d[ tmp_alternative_d > 0 ] ]
         
         # best cross-correlation point
         self.d = xcorr[ np.where( ycorr== max( cor_alternative_d ) )[0][0] ]
@@ -326,7 +327,7 @@ Summary of Peak Model:
         cdef:
            int i
            list chrs
-           str chrom
+           bytes chrom
            dict paired_peaks_pos
            np.ndarray[np.int32_t, ndim=1] plus_tags, minus_tags
 
@@ -351,11 +352,19 @@ Summary of Peak Model:
                 self.debug("Number of paired peaks: %d" %(len(paired_peaks_pos[chrom])))
         return paired_peaks_pos
 
-    cdef __find_pair_center (self, pluspeaks, minuspeaks):
-        ip = 0                  # index for plus peaks
-        im = 0                  # index for minus peaks
-        im_prev = 0             # index for minus peaks in previous plus peak
-        pair_centers = array(BYTE4,[])
+    cdef __find_pair_center (self, list pluspeaks, list minuspeaks):
+        cdef:
+            long ip = 0                  # index for plus peaks
+            long im = 0                  # index for minus peaks
+            long im_prev = 0             # index for minus peaks in previous plus peak
+            array.array pair_centers
+            long ip_max
+            long im_max
+            bool flag_find_overlap
+            long pp, pn
+            long mp, mn
+            
+        pair_centers = array.array(BYTE4,[])
         ip_max = len(pluspeaks)
         im_max = len(minuspeaks)
         flag_find_overlap = False
