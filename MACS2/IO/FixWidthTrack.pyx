@@ -1,4 +1,4 @@
-# Time-stamp: <2018-10-24 13:31:46 Tao Liu>
+# Time-stamp: <2018-10-24 16:45:26 Tao Liu>
 
 """Module for FWTrack classes.
 
@@ -805,7 +805,7 @@ cdef class FWTrack:
                 name     = cpeaks[m]["name"]
 
                 temp = []
-                for i in range(ev_i,plus.shape[0]):
+                for i in range(prev_i,plus.shape[0]):
                     pos = plus[i]
                     if pos < startpos:
                         continue
