@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2018-10-17 16:21:40 Tao Liu>
+# Time-stamp: <2018-10-24 13:53:53 Tao Liu>
 
 """Description
 
@@ -61,7 +61,7 @@ def main():
         long_description = fh.read()
         
     setup(name="MACS2",
-          version="2.1.2",
+          version="2.2.3",
           description="Model Based Analysis for ChIP-Seq data",
           long_description = long_description,
           long_description_content_type="text/markdown",
@@ -86,7 +86,7 @@ def main():
               'Programming Language :: Cython',
               ],
           install_requires=[
-              'numpy>=1.6',
+              'numpy>=1.15',
               #'scipy',
               ],
           cmdclass = command_classes,

@@ -1,4 +1,4 @@
-# Time-stamp: <2018-10-23 16:47:02 Tao Liu>
+# Time-stamp: <2018-10-24 13:34:58 Tao Liu>
 
 """Module for Feature IO classes.
 
@@ -138,12 +138,13 @@ cdef float median_from_value_length ( np.ndarray value, list length ):
         list tmp
         int32_t l_half, c, tmp_l
         float tmp_v
+        float mid_l
     
     tmp = sorted(zip( value, length ))
-    l = sum( length )/2
+    mid_l = sum( length )/2
     for (tmp_v, tmp_l) in tmp:
         c += tmp_l
-        if c > l:
+        if c > mid_l:
             return tmp_v
 
 cdef float mean_from_value_length ( np.ndarray value, list length ):
@@ -1132,9 +1133,9 @@ cdef class scoreTrackII:
                 else:
                     # close
                     if call_summits:
-                        self.__close_peak2(peak_content, peaks, min_length, chrom, max_gap/2 )
+                        self.__close_peak2(peak_content, peaks, min_length, chrom, max_gap//2 )
                     else:
-                        self.__close_peak(peak_content, peaks, min_length, chrom, max_gap/2 )
+                        self.__close_peak(peak_content, peaks, min_length, chrom, max_gap//2 )
                     peak_content = [(above_cutoff_startpos[i], above_cutoff_endpos[i], above_cutoff_v[i], above_cutoff_sv[i], above_cutoff[i]),]
             
             # save the last peak
@@ -1142,9 +1143,9 @@ cdef class scoreTrackII:
                 continue
             else:
                 if call_summits:
-                    self.__close_peak2(peak_content, peaks, min_length, chrom, max_gap/2 )
+                    self.__close_peak2(peak_content, peaks, min_length, chrom, max_gap//2 )
                 else:
-                    self.__close_peak(peak_content, peaks, min_length, chrom, max_gap/2 )
+                    self.__close_peak(peak_content, peaks, min_length, chrom, max_gap//2 )
 
         return peaks
 

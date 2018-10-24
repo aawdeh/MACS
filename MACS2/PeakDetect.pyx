@@ -1,4 +1,4 @@
-# Time-stamp: <2018-10-22 13:51:05 Tao Liu>
+# Time-stamp: <2018-10-24 13:35:28 Tao Liu>
 
 """Module Description
 
@@ -32,7 +32,7 @@ cdef bytes subpeak_letters(short i):
     if i < 26:
         return chr(97+i).encode()
     else:
-        return subpeak_letters(i / 26) + chr(97 + (i % 26)).encode()
+        return subpeak_letters(i // 26) + chr(97 + (i % 26)).encode()
 
 class PeakDetect:
     """Class to do the peak calling.

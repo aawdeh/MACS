@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Time-stamp: <2018-10-18 15:57:04 Tao Liu>
+# Time-stamp: <2018-10-24 13:53:44 Tao Liu>
 
 """Description: 
 
@@ -28,6 +28,7 @@ command_classes = {}
 try:
     import Cython.Distutils
     command_classes['build_ext'] = Cython.Distutils.build_ext
+    from Cython.Build import cythonize
     has_cython = True
 except:
     has_cython = False
@@ -48,21 +49,21 @@ def main():
     extra_c_args = ["-w","-O3","-ffast-math"] # for C, -Ofast implies -O3 and -ffast-math
 
     if has_cython:
-        ext_modules = [Extension("MACS2.Prob", ["MACS2/Prob.pyx"], libraries=["m"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"} ),
-                       Extension("MACS2.IO.Parser",["MACS2/IO/Parser.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.Pileup", ["MACS2/Pileup.pyx","MACS2/cPosValCalculation.pxd","MACS2/cPosValCalculation.c"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"} ),
-                       Extension("MACS2.PeakModel", ["MACS2/PeakModel.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.PeakDetect", ["MACS2/PeakDetect.pyx"], extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.Signal", ["MACS2/Signal.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.IO.PeakIO", ["MACS2/IO/PeakIO.pyx"], extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.IO.BedGraphIO", ["MACS2/IO/BedGraphIO.pyx"], extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),                   
-                       Extension("MACS2.IO.FixWidthTrack", ["MACS2/IO/FixWidthTrack.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.IO.PairedEndTrack", ["MACS2/IO/PairedEndTrack.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.IO.BedGraph", ["MACS2/IO/BedGraph.pyx"], libraries=["m"], extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.IO.ScoreTrack", ["MACS2/IO/ScoreTrack.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"} ),
-                       Extension("MACS2.IO.CallPeakUnit", ["MACS2/IO/CallPeakUnit.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.hashtable", ["MACS2/hashtable.pyx"], include_dirs=["MACS2/",numpy_get_include()], extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
-                       Extension("MACS2.Statistics", ["MACS2/Statistics.pyx"], libraries=["m"], include_dirs=["MACS2/",numpy_get_include()], extra_compile_args=extra_c_args, compiler_directives={'language_level': "3"}),
+        ext_modules = [Extension("MACS2.Prob", ["MACS2/Prob.pyx"], libraries=["m"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args ),
+                       Extension("MACS2.IO.Parser",["MACS2/IO/Parser.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args),
+                       Extension("MACS2.Pileup", ["MACS2/Pileup.pyx","MACS2/cPosValCalculation.pxd","MACS2/cPosValCalculation.c"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args ),
+                       Extension("MACS2.PeakModel", ["MACS2/PeakModel.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args),
+                       Extension("MACS2.PeakDetect", ["MACS2/PeakDetect.pyx"], extra_compile_args=extra_c_args),
+                       Extension("MACS2.Signal", ["MACS2/Signal.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args),
+                       Extension("MACS2.IO.PeakIO", ["MACS2/IO/PeakIO.pyx"], extra_compile_args=extra_c_args),
+                       Extension("MACS2.IO.BedGraphIO", ["MACS2/IO/BedGraphIO.pyx"], extra_compile_args=extra_c_args),                   
+                       Extension("MACS2.IO.FixWidthTrack", ["MACS2/IO/FixWidthTrack.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args),
+                       Extension("MACS2.IO.PairedEndTrack", ["MACS2/IO/PairedEndTrack.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args),
+                       Extension("MACS2.IO.BedGraph", ["MACS2/IO/BedGraph.pyx"], libraries=["m"], extra_compile_args=extra_c_args),
+                       Extension("MACS2.IO.ScoreTrack", ["MACS2/IO/ScoreTrack.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args ),
+                       Extension("MACS2.IO.CallPeakUnit", ["MACS2/IO/CallPeakUnit.pyx"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args),
+                       Extension("MACS2.hashtable", ["MACS2/hashtable.pyx"], include_dirs=["MACS2/",numpy_get_include()], extra_compile_args=extra_c_args),
+                       Extension("MACS2.Statistics", ["MACS2/Statistics.pyx"], libraries=["m"], include_dirs=["MACS2/",numpy_get_include()], extra_compile_args=extra_c_args),
                        ]
     else:
         ext_modules = [Extension("MACS2.Prob", ["MACS2/Prob.c"], libraries=["m"], include_dirs=numpy_include_dir, extra_compile_args=extra_c_args ),
@@ -86,7 +87,7 @@ def main():
         long_description = fh.read()
         
     setup(name="MACS2",
-          version="2.1.2p3",
+          version="2.2.3",
           description="Model Based Analysis for ChIP-Seq data",
           long_description = long_description,
           long_description_content_type="text/markdown",
@@ -111,12 +112,12 @@ def main():
               'Programming Language :: Cython',
               ],
           install_requires=[
-              'numpy>=1.6',
-              'cython>=0.18',
+              'numpy>=1.15',
+              'cython>=0.29',
               #'scipy',
               ],
           cmdclass = command_classes,
-          ext_modules = ext_modules
+          ext_modules = cythonize(ext_modules, language_level="3str")
           )
 
 if __name__ == '__main__':

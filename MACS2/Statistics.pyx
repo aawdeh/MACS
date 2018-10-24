@@ -1,4 +1,4 @@
-from khash cimport *
+from MACS2.khash cimport *
 from libc.math cimport log10, log
 from MACS2.Prob import poisson_cdf
 
