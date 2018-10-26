@@ -1,4 +1,4 @@
-# Time-stamp: <2018-10-24 16:35:15 Tao Liu>
+# Time-stamp: <2018-10-26 13:22:14 Tao Liu>
 
 """Description: Naive call differential peaks from 4 bedGraph tracks for scores.
 
@@ -110,12 +110,15 @@ def run( options ):
     
     nf = open( ofiles[ 0 ], 'w' )
     cat1.write_to_bed(nf, name_prefix=name_prefix[ 0 ], name=b"condition 1", description=b"unique regions in condition 1", score_column="score")
+    nf.close()
 
     nf = open( ofiles[ 1 ], 'w' )
     cat2.write_to_bed(nf, name_prefix=name_prefix[ 1 ], name=b"condition 2", description=b"unique regions in condition 2", score_column="score")
+    nf.close()
 
     nf = open( ofiles[ 2 ], 'w' )
     cat3.write_to_bed(nf, name_prefix=name_prefix[ 2 ], name=b"common", description=b"common regions in both conditions", score_column="score")
+    nf.close()
     info("Done")
 
 
