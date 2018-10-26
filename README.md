@@ -1,4 +1,24 @@
-# Recent Changes for MACS (2.1.2)
+# Recent Changes for MACS (2.2.3)
+
+### 2.2.3
+
+    * New features
+
+    1) First Python3 version MACS2 released.
+
+    2) Version number 2.2.X will be used for MACS2 in Python3, in
+    parallel to 2.1.X.
+
+    * Bug fixes
+
+    1) Fixed issue #265 where the pseudocount hasn't been applied
+    while calculating p-value score in ScoreTrack object.
+
+    2) Fixed bdgbroadcall so that it will report those broad peaks
+    without strong peak inside as well, consistent with callpeak
+    --broad
+
+    3) Filterdup dryrun now works for paired-end data.
 
 ### 2.1.2
 
@@ -35,22 +55,8 @@
 	likelihood ratios. Thank @jsh58
 
     7) More spelling tweaks in source code. Thank @mr-c
-
-### 2.1.1
-
-	* Retire the tag:rc. 
-
-	* Fixed spelling. Merged pull request #120. Thank @mr-c!
-
-	* Change filtering criteria for reading BAM/SAM files
-
-	Related to callpeak and filterdup commands. Now the
-	reads/alignments flagged with 1028 or 'PCR/Optical duplicate' will
-	still be read although MACS2 may decide them as duplicates
-	later. Related to old issue #33. Sorry I forgot to address it for
-	years!
 	
-# README for MACS (2.1.2)
+# README for MACS (2.2.3)
 
 ## Introduction
 

@@ -1,3 +1,24 @@
+2018-10-26  Tao Liu  <vladimir.liu@gmail.com>
+	MACS version 2.2.3
+
+	* New features
+
+	1) First Python3 version MACS2 released.
+
+	2) Version number 2.2.X will be used for MACS2 in Python3, in
+	parallel to 2.1.X.
+
+	* Bug fixes
+
+	1) Fixed issue #265 where the pseudocount hasn't been applied
+	while calculating p-value score in ScoreTrack object.
+
+	2) Fixed bdgbroadcall so that it will report those broad peaks
+	without strong peak inside as well, consistent with callpeak
+	--broad
+
+	3) Filterdup dryrun now works for paired-end data.
+
 2018-10-17  Tao Liu  <vladimir.liu@gmail.com>
 	MACS version 2.1.2
 
@@ -38,7 +59,7 @@
 2016-03-09  Tao Liu  <vladimir.liu@gmail.com>
 	MACS version 2.1.1 20160309
 
-	* Retire the tag:rc. 
+	* Retire the tag:rc.
 
 	* Fixed spelling. Merged pull request #120. Thank @mr-c!
 
